@@ -1,0 +1,92 @@
+﻿body {
+    text-align: center;
+    background: #E7E7E7;
+}
+
+.success {
+    color: #88B04B;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.para {
+    color: #404F5E;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-size: 20px;
+    margin: 0;
+}
+
+.checkmark {
+    color: #9ABC66;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: -15px;
+}
+
+.card {
+    background: white;
+    padding: 60px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px #C8D0D8;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+
+.btn-signup {
+    border-radius: 25px !important;
+    padding: 8px 30px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: #F65C5C;
+    color: white;
+}
+
+    .btn-signup:focus,
+    .btn-signup:hover,
+    .btn-signup:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: white;
+    }
+
+
+.btn-signin {
+    border-radius: 25px !important;
+    padding: 8px 10px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: transparent;
+    color: #000;
+}
+
+    .btn-signin:focus,
+    .btn-signin:hover,
+    .btn-signin:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: #F65C5C;
+    }
+
+input {
+    border-bottom: 3px solid black !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
+    input:focus {
+        box-shadow: none !important;
+    }
+
+.search-btn:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    outline-style: none !important
+}

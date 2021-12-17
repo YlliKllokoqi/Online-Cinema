@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://i.imgur.com/SekUp6m.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Open+Sans+Condensed:wght@300&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-dark bg-white mb-3 fixed-top">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="https://i.imgur.com/Mrgxk57.png" width="100%" height="20px" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png" width="50px;" height="50px;" />
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (ViewData["Category"] != null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a style="font-size:18px;" class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Category
+                                </a>
+                                <div class="dropdown-menu category-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @foreach (var c in (IEnumerable<DS.CineLabs.Application.Dtos.Category.GetCategoriesDto>)ViewData["Category"])
+                                    {
+                                        <a href="/?Category=@c.Name" class="dropdown-item text-dark">@c.Name</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(RolesModel.AdminRole))
+                        {
+                            <li class="nav-item">
+                                <a style="font-size:18px;" class="nav-link text-dark" asp-action="Dashboard" asp-controller="Admin">
+                                    Admin
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole(RolesModel.CustomerRole))
+                        {
+                            <li class="nav-item">
+                                <a style="font-size:18px;" class="nav-link text-dark" asp-action="UserMovies" asp-controller="Home">
+                                    My Movies
+                                </a>
+                            </li>
+                        }
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="text-white text-center text-lg-start bg-dark">
+        <!-- Grid container -->
+        <div class="container p-4">
+            <!--Grid row-->
+            <div class="row mt-4">
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-md-0">
+                    <h5 class="text-uppercase mb-4">About Us</h5>
+
+                    <p>
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                        voluptatum deleniti atque corrupti.
+                    </p>
+
+                    <p>
+                        Blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas
+                        molestias.
+                    </p>
+
+                    <div class="mt-4">
+                        <!-- Facebook -->
+                        <a type="button" class="btn btn-floating  btn-lg"><i class="fab fa-facebook-f"></i></a>
+                        <!-- Dribbble -->
+                        <a type="button" class="btn btn-floating  btn-lg"><i class="fab fa-dribbble"></i></a>
+                        <!-- Twitter -->
+                        <a type="button" class="btn btn-floating  btn-lg"><i class="fab fa-twitter"></i></a>
+                        <!-- Google + -->
+                        <a type="button" class="btn btn-floating  btn-lg"><i class="fab fa-google-plus-g"></i></a>
+                        <!-- Linkedin -->
+                    </div>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6 mb-md-0">
+                    <h5 class="text-uppercase mb-4 pb-1">Contact</h5>
+
+                    <ul class="fa-ul" style="margin-left: 1.65em;">
+                        <li class="mb-3">
+                            <span class="m-2"><i class="fas fa-phone"></i></span><span class="ms-2">+ 383 49 500 500 500</span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="m-2"><i class="fas fa-home"></i></span>Prishtine,10000, Kosove
+                        </li>
+                        <li class="mb-3">
+                            <span class="m-2"><i class="fas fa-envelope"></i></span><span class="ms-2">cinelabs01@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6  mb-md-0">
+                    <h5 class="text-uppercase mb-4">Useful Links</h5>
+                    <a class="text-white lnk" href="/identity/account/login">Sign In</a>
+                    <br />
+                    <a class="text-white lnk" href="/identity/account/register">Sign Up</a>
+                    <br />
+                    <a class="text-white lnk" href="/home/contactus">Contact Us</a>
+                    <br />
+                    <a class="text-white lnk" href="/home/aboutus">About Us</a>
+
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+        </div>
+        <!-- Grid container -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            &copy; @DateTime.Now.Year - CineLabs |
+            <a class="text-white lnk" href="https://doctorstrangers.com">DoctorStrange</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <!-- End of .container -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

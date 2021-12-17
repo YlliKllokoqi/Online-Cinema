@@ -1,0 +1,171 @@
+﻿@model DS.CineLabs.Common.Models.MovieDetails.UpdateMovieDetailsModel
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>CineLabs - Update Movie Details</title>
+    <link rel="icon" href="https://i.imgur.com/SekUp6m.png">
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+    <script type="text/javascript" src="~/js/dashboard.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Open+Sans+Condensed:wght@300&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <header class="page-header">
+        <nav>
+            <a href="/admin/dashboard" aria-label="forecastr logo" class="logo">
+                <span style="font-size:25px;">CineLabs</span>
+            </a>
+            <ul class="admin-menu">
+                <li class="menu-heading">
+                    <h3>Dashboard</h3>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">User UI</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Category" asp-action="GetAllCategories">Category</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Review" asp-action="GetAllReviews">Review</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="MovieDetails" asp-action="GetAllMovieDetails">Movie Details</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Movies" asp-action="GetAllMovies">Movies</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Ticket" asp-action="GetAllTickets">Ticket</a>
+                </li>
+              
+                
+                
+            </ul>
+        </nav>
+    </header>
+    <section class="page-content">
+        <section class="search-and-user">
+            
+            <div class="admin-profile">
+                <span class="greeting">Hello admin</span><i class="fas fa-user-circle" style="font-size:25px;"></i>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="container">
+                <a asp-controller="MovieDetails" asp-action="GetAllMovieDetails"><i class="fas fa-arrow-circle-left" style="font-size:30px;"></i></a>
+                <h1>Edit Movie Details</h1>
+                <form asp-action="UpdateMovieDetailsModel" asp-controller="MovieDetails" method="post">
+                    <input asp-for="Id" hidden />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>Movie Name</label>
+                                <input type="text" asp-for="Movie_Name" class="form-control" />
+                                <span asp-validation-for="Movie_Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Photo</label>
+                                <input type="text" asp-for="PhotoPath" class="form-control" />
+                                <span asp-validation-for="PhotoPath" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cover</label>
+                                <input type="text" asp-for="CoverPath" class="form-control" />
+                                <span asp-validation-for="CoverPath" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Premiere</label>
+                                <input type="datetime" asp-for="Premiere" class="form-control" />
+                                <span asp-validation-for="Premiere" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Director</label>
+                                <input type="text" asp-for="Director" class="form-control" />
+                                <span asp-validation-for="Director" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Actors</label>
+                                <input type="text" asp-for="Actors" class="form-control" />
+                                <span asp-validation-for="Actors" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" asp-for="Country" class="form-control" />
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>PG</label>
+                                <input type="text" asp-for="PG" class="form-control" />
+                                <span asp-validation-for="PG" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Distributor</label>
+                                <input type="text" asp-for="Distributor" class="form-control" />
+                                <span asp-validation-for="Distributor" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Length</label>
+                                <input type="text" asp-for="Length" class="form-control" />
+                                <span asp-validation-for="Length" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Schedule</label>
+                                <input type="text" asp-for="Schedule" class="form-control" />
+                                <span asp-validation-for="Schedule" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Trailer</label>
+                                <input type="text" asp-for="Trailer" class="form-control" />
+                                <span asp-validation-for="Trailer" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+    
+</body>
+</html>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+
+
+

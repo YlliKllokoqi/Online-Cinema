@@ -1,0 +1,24 @@
+﻿@model DS.CineLabs.Common.Models.Movies.GetMovieModel
+    <html>
+    <head>
+        <title>Cinelabs - Payment Successfull</title>
+        <link rel="icon" href="https://i.imgur.com/SekUp6m.png">
+        <link rel="stylesheet" type="text/css" href="~/css/payment.css" />
+    </head>
+
+    <body>
+        <div class="card" style="margin-top:90px;">
+            <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+                <i class="checkmark">✓</i>
+            </div>
+            <h1 class="success">Success</h1>
+            <p class="para">We received your purchase request,<br /> you will be redirected to the movie stream shortly!</p>
+        </div>
+
+        <script>
+    setTimeout(function () {
+        window.location.href = 'https://localhost:44302/Home/WatchMovie/' +'@Model.Id';
+    }, 5000);
+        </script>
+    </body>
+</html>

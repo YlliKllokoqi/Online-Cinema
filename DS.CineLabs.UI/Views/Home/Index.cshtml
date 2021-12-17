@@ -1,0 +1,160 @@
+﻿@model DS.CineLabs.Common.Models.Home.HomeViewModel
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Bootstrap4.Core
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CineLabs - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://i.imgur.com/SekUp6m.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="~/css/homestyle.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Open+Sans+Condensed:wght@300&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container pl-0 pr-0" style="margin-top: 90px;">
+        <div class="slideshow-container">
+            @foreach (var m in Model.GetComingSoonMovies)
+            {
+                <div class="mySlides">
+                    <img class="photo-slider" src="@("/images/moviedetails/" + m.Details.CoverPath)" style="width:100%">
+                    <div class="bottom-right">
+                        COMING SOON!
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    <span class="dot"></span>
+                </div>
+            }
+        </div>
+        <div style="width: 100%; height: 20px; border-bottom: 1px solid #eaeaea; text-align: center" class="mt-5 mb-2">
+            <span style="font-size: 20px; background-color: #eaeaea; padding: 0 10px; color: #666666 !important; font-weight: bold">
+                Playing now
+            </span>
+        </div>
+
+        <div class="row">
+            @foreach (var m in Model.MoviesByCategory)
+            {
+                if (m.Details.Premiere < DateTime.Now)
+                {
+                    <div class="col-md-3 zoomout pt-5">
+                        <a asp-controller="Home" asp-action="Details" asp-route-Id="@m.Id" class="card-click">
+                            <div class="card movie_card">
+                                <img src="@("~/images/moviedetails/" + m.Details.PhotoPath)" asp-append-version="true" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">@m.Name</h5>
+                                    <span class="movie_info">
+                                        @foreach (var c in m.MovieCategories)
+                                        {
+                                            <b style="font-size: 11px;">@c.Category.Name</b>
+                                        }
+                                    </span>
+                                    <span class="movie_info float-right"> @m.Details.Length min</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="float-left">
+                Showing @(Model.MoviesByCategory.PageCount < Model.MoviesByCategory.PageNumber ? 0 : Model.MoviesByCategory.PageNumber) of @Model.MoviesByCategory.PageCount pages
+            </div>
+            <div class="float-right">
+                @Html.PagedListPager((IPagedList)Model.MoviesByCategory, page => Url.Action("Index", new { page }), Bootstrap4PagedListRenderOptions.Classic)
+            </div>
+        </div>
+
+        <br />
+
+        <div style="width: 100%; height: 20px; border-bottom: 1px solid #eaeaea; text-align: center" class="mt-5 mb-2">
+            <span style="font-size: 20px; background-color: #eaeaea; padding: 0 10px; color: #666666 !important; font-weight: bold">
+                Coming soon
+            </span>
+        </div>
+
+        <div class="container comingsoon-slider p-0">
+            <div class="top-content">
+                <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                        <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                            <img src="https://th.bing.com/th/id/OIP.c9psDFYVVScmJoofF0-Y1AHaLu?pid=ImgDet&rs=1" class="img-fluid mx-auto d-block slide-photo" alt="img1">
+                        </div>
+                        @foreach (var m in Model.GetComingSoonMovies)
+                        {
+                            <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a asp-action="Details" asp-controller="Home" asp-route-Id="@m.Id">
+                                    <img src="@("/images/moviedetails/" + m.Details.PhotoPath)" class="img-fluid mx-auto d-block slide-photo" alt="img1">
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#carousel-example').on('slide.bs.carousel', function (e) {
+            var $e = $(e.relatedTarget);
+            var idx = $e.index();
+            var itemsPerSlide = 5;
+            var totalItems = $('.carousel-item').length;
+
+            if (idx >= totalItems - (itemsPerSlide - 1)) {
+                var it = itemsPerSlide - (totalItems - idx);
+                for (var i = 0; i < it; i++) {
+                    if (e.direction == "left") {
+                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                    }
+                    else {
+                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                    }
+                }
+            }
+        });
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            setTimeout(showSlides, 3000); // Change image every 2 seconds
+        }
+    </script>
+</body>
+</html>
+

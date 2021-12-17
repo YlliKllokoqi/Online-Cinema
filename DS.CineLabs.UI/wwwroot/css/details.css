@@ -1,0 +1,231 @@
+﻿*{
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+body, html {
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+    background: url('@Url.Content("~/images/moviedetails/"+Model.Movie.Details.PhotoPath)');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/*------- portfolio -------*/
+.project {
+    margin: 15px 0;
+}
+
+.no-gutter .project {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.has-spacer {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.has-spacer-extra-space {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.has-side-spacer {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.project-title {
+    font-size: 1.25rem;
+}
+
+.project-skill {
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.06rem;
+}
+
+.project-info-box {
+    margin: 15px 0;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 5px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.project-info-box2 {
+    margin: 15px 0;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 5px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+    text-align: center !important;
+    align-items: center !important;
+}
+
+    .project-info-box p {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #d5dadb;
+        font-family: 'Mochiy Pop P One', sans-serif;
+        font-family: 'Open Sans', sans-serif;
+        font-family: 'Open Sans Condensed', sans-serif;
+    }
+
+        .project-info-box p:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+.movie-photo {
+    width: 100%;
+    max-width: 100%;
+    height: 550px;
+    -webkit-backface-visibility: hidden;
+}
+
+.rounded {
+    border-radius: 5px !important;
+}
+
+.btn-xs.btn-icon {
+    width: 34px;
+    height: 34px;
+    max-width: 34px !important;
+    max-height: 34px !important;
+    font-size: 10px;
+    line-height: 34px;
+}
+
+
+.mr-5 {
+    margin-right: 5px !important;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.btn-circle {
+    border-radius: 50% !important;
+}
+
+
+
+b, strong {
+    font-weight: 700 !important;
+}
+
+#myModal {
+
+}
+
+.trailer-btn {
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+    padding: 10px 20px;
+    margin: 0 5px;
+}
+
+.review {
+    padding: 15px;
+    border-radius: 10px;
+    border: 0.7px solid #C5C0C0;
+}
+
+.review-box {
+    margin-bottom: 40px;
+}
+.review-text {
+    border: none !important;
+    outline: none !important;
+    resize: none !important;
+}
+
+.review-text:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    cursor: pointer;
+}
+
+.movie-watch {
+    position: relative;
+}
+
+    .movie-watch:hover .play-button {
+        display: grid;
+    }
+
+.btn-signup {
+    border-radius: 25px !important;
+    padding: 8px 30px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: #F65C5C;
+    color: white;
+}
+
+    .btn-signup:focus,
+    .btn-signup:hover,
+    .btn-signup:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: white;
+    }
+
+
+.btn-signin {
+    border-radius: 25px !important;
+    padding: 8px 10px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: transparent;
+    color: #000;
+}
+
+    .btn-signin:focus,
+    .btn-signin:hover,
+    .btn-signin:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: #F65C5C;
+    }
+
+input {
+    border-bottom: 3px solid black !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
+    input:focus {
+        box-shadow: none !important;
+    }
+
+.search-btn:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    outline-style: none !important
+}

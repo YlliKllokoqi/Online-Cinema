@@ -1,0 +1,721 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DS.CineLabs.Infrastructure.Identity
+
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+@{
+    Layout = null;
+}
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinelabs - Dashboard</title>
+    <link rel="icon" href="https://i.imgur.com/SekUp6m.png">
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/dashboard.css" type="text/css" />
+    <link rel="icon" href="https://i.imgur.com/Uvn3TSk.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Open+Sans+Condensed:wght@300&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <style>input[type="month"] {
+            -webkit-appearance: listbox;
+        }
+
+        .months {
+            width: 100%;
+            height: 280px;
+            position: relative;
+        }
+
+            .months .hr {
+                height: 1px;
+                margin: 15px 0;
+                background: #ccc;
+            }
+
+        .month {
+            padding: 15px;
+            width: inherit;
+            height: inherit;
+            background: #fff;
+            position: absolute;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transition: all .4s ease-in-out 0s;
+            -o-transition: all .4s ease-in-out 0s;
+            transition: all .4s ease-in-out 0s;
+            -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.01), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.01), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .months[data-flow="left"] .month {
+            -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+        }
+
+        .months[data-flow="right"] .month {
+            -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+        }
+
+        .months .month[data-active="true"] {
+            -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+        }
+
+        .calendar {
+            width: 400px;
+            font-size: 100%;
+            margin: 0 auto;
+            -webkit-perspective: 1000px;
+            perspective: 1000px;
+            cursor: default;
+            position: relative;
+        }
+
+        @@media (max-width: 767.98px) {
+            .calendar {
+                width: 100%;
+            }
+        }
+
+        .calendar .header {
+            height: 100px;
+            position: relative;
+            color: #fff;
+        }
+
+            .calendar .header .text {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #308ff0;
+                padding: 15px;
+                -webkit-transform: rotateX(90deg);
+                transform: rotateX(90deg);
+                -webkit-transform-origin: bottom;
+                -ms-transform-origin: bottom;
+                transform-origin: bottom;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                -webkit-transition: .4s ease-in-out 0s;
+                -o-transition: .4s ease-in-out 0s;
+                transition: .4s ease-in-out 0s;
+                -webkit-box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.01), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+                box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.01), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+                opacity: 0;
+            }
+
+                .calendar .header .text > span {
+                    text-align: center;
+                    padding: 20px;
+                    display: block;
+                    text-transform: uppercase;
+                    font-weight: 400;
+                }
+
+            .calendar .header.active .text {
+                -webkit-transform: rotateX(0deg);
+                transform: rotateX(0deg);
+                opacity: 1;
+            }
+
+        .header [data-action] {
+            color: inherit;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            width: 40px;
+            height: 40px;
+            z-index: 1;
+            opacity: 0;
+            -webkit-transition: all .4s ease-in-out 0s;
+            -o-transition: all .4s ease-in-out 0s;
+            transition: all .4s ease-in-out 0s;
+        }
+
+            .header [data-action] > i {
+                width: 20px;
+                height: 20px;
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-top: -10px;
+                margin-left: -10px;
+            }
+
+                .header [data-action] > i:before, .header [data-action] > i:after {
+                    top: 50%;
+                    margin-top: -1px;
+                    content: '';
+                    position: absolute;
+                    height: 2px;
+                    width: 20px;
+                    border-top: 2px solid;
+                    border-radius: 2px;
+                }
+
+        .header [data-action*="prev"] {
+            left: 15px;
+        }
+
+            .header [data-action*="prev"] > i:before, .header [data-action*="prev"] > i:after {
+                left: 0;
+            }
+
+            .header [data-action*="prev"] > i:before {
+                top: 3px;
+                -webkit-transform: rotate(-45deg);
+                -ms-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+            }
+
+            .header [data-action*="prev"] > i:after {
+                top: auto;
+                bottom: 3px;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+        .header [data-action*="next"] {
+            right: 15px;
+        }
+
+            .header [data-action*="next"] > i:before, .header [data-action*="next"] > i:after {
+                right: 0;
+            }
+
+            .header [data-action*="next"] > i:before {
+                top: auto;
+                bottom: 3px;
+                -webkit-transform: rotate(-45deg);
+                -ms-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+            }
+
+            .header [data-action*="next"] > i:after {
+                top: 3px;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+        .header.active [data-action] {
+            opacity: 1;
+        }
+
+        [data-theme="january"] {
+            background-color: #90CAF9;
+        }
+
+            [data-theme="january"] .row.head {
+                color: #1E88E5;
+            }
+
+            [data-theme="january"] .header .text,
+            [data-theme="january"] .table .row .cell.active span {
+                background-color: #1E88E5;
+            }
+
+        [data-theme="february"] {
+            background-color: #81D4FA;
+        }
+
+            [data-theme="february"] .row.head {
+                color: #039BE5;
+            }
+
+            [data-theme="february"] .header .text,
+            [data-theme="february"] .table .row .cell.active span {
+                background-color: #039BE5;
+            }
+
+        [data-theme="march"] {
+            background-color: #80CBC4;
+        }
+
+            [data-theme="march"] .row.head {
+                color: #00897B;
+            }
+
+            [data-theme="march"] .header .text,
+            [data-theme="march"] .table .row .cell.active span {
+                background-color: #00897B;
+            }
+
+        [data-theme="april"] {
+            background-color: #C5E1A5;
+        }
+
+            [data-theme="april"] .row.head {
+                color: #7CB342;
+            }
+
+            [data-theme="april"] .header .text,
+            [data-theme="april"] .table .row .cell.active span {
+                background-color: #7CB342;
+            }
+
+        [data-theme="may"] {
+            background-color: #FFE082;
+        }
+
+            [data-theme="may"] .row.head {
+                color: #FFB300;
+            }
+
+            [data-theme="may"] .header .text,
+            [data-theme="may"] .table .row .cell.active span {
+                background-color: #FFB300;
+            }
+
+        [data-theme="june"] {
+            background-color: #FFAB91;
+        }
+
+            [data-theme="june"] .row.head {
+                color: #F4511E;
+            }
+
+            [data-theme="june"] .header .text,
+            [data-theme="june"] .table .row .cell.active span {
+                background-color: #F4511E;
+            }
+
+        [data-theme="july"] {
+            background-color: #CE93D8;
+        }
+
+            [data-theme="july"] .row.head {
+                color: #8E24AA;
+            }
+
+            [data-theme="july"] .header .text,
+            [data-theme="july"] .table .row .cell.active span {
+                background-color: #8E24AA;
+            }
+
+        [data-theme="august"] {
+            background-color: #B39DDB;
+        }
+
+            [data-theme="august"] .row.head {
+                color: #5E35B1;
+            }
+
+            [data-theme="august"] .header .text,
+            [data-theme="august"] .table .row .cell.active span {
+                background-color: #5E35B1;
+            }
+
+        [data-theme="september"] {
+            background-color: #EF9A9A;
+        }
+
+            [data-theme="september"] .row.head {
+                color: #E53935;
+            }
+
+            [data-theme="september"] .header .text,
+            [data-theme="september"] .table .row .cell.active span {
+                background-color: #E53935;
+            }
+
+        [data-theme="october"] {
+            background-color: #CE93D8;
+        }
+
+            [data-theme="october"] .row.head {
+                color: #8E24AA;
+            }
+
+            [data-theme="october"] .header .text,
+            [data-theme="october"] .table .row .cell.active span {
+                background-color: #8E24AA;
+            }
+
+        [data-theme="november"] {
+            background-color: #BCAAA4;
+        }
+
+            [data-theme="november"] .row.head {
+                color: #6D4C41;
+            }
+
+            [data-theme="november"] .header .text,
+            [data-theme="november"] .table .row .cell.active span {
+                background-color: #6D4C41;
+            }
+
+        [data-theme="december"] {
+            background-color: #B0BEC5;
+        }
+
+            [data-theme="december"] .row.head {
+                color: #546E7A;
+            }
+
+            [data-theme="december"] .header .text,
+            [data-theme="december"] .table .row .cell.active span {
+                background-color: #546E7A;
+            }
+
+        .d-table-cell {
+            display: table-cell !important;
+        }
+
+        .d-sm-table-cell {
+            display: table-cell !important;
+        }
+
+        .d-md-table-cell {
+            display: table-cell !important;
+        }
+
+        .d-lg-table-cell {
+            display: table-cell !important;
+        }
+
+        .d-xl-table-cell {
+            display: table-cell !important;
+        }
+
+        .d-print-table-cell {
+            display: table-cell !important;
+        }
+
+        .table .row .cell {
+            width: 14.28%;
+            padding: 5px;
+            text-align: center;
+            display: table-cell;
+        }
+
+            .table .row .cell.disable {
+                color: #ccc;
+            }
+
+            .table .row .cell span {
+                display: inline-block;
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+                -webkit-transition: color,background .4s ease-in-out 0s;
+                -o-transition: color,background .4s ease-in-out 0s;
+                transition: color,background .4s ease-in-out 0s;
+            }
+
+            .table .row .cell.active span {
+                color: #fff;
+                background-color: #308ff0;
+                border-radius: 4px;
+            }</style>
+</head>
+<body>
+    <header class="page-header">
+        <nav>
+            <a href="/admin/dashboard" aria-label="forecastr logo" class="logo">
+                <span style="font-size:25px;">CineLabs</span>
+            </a>
+
+            <ul class="admin-menu">
+                <li class="menu-heading">
+                    <h3>Dashboard</h3>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-controller="Home" asp-action="Index">User UI</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Category" asp-action="GetAllCategories">Category</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Review" asp-action="GetAllReviews">Review</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="MovieDetails" asp-action="GetAllMovieDetails">Movie Details</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Movies" asp-action="GetAllMovies">Movies</a>
+                </li>
+                <li class="text-white">
+                    <a class="dropdown-item text-white" asp-area="" asp-controller="Ticket" asp-action="GetAllTickets">Ticket</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <section class="page-content">
+        <section class="search-and-user">
+            <div class="admin-profile">
+                <ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link profile-icon" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span>@ViewBag.FirstName <i class="fas fa-user-circle" style="font-size: 25px; color: #242E42"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <a asp-action="GetAllMovies" asp-controller="Movies" class="card-clicked">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h1>@ViewBag.Movies</h1>
+                                        <p>Movies</p>
+                                    </div>
+                                    <div class="col-4 align-self-end mb-3">
+                                        <i class="fas fa-film" style="font-size:40px"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <a asp-action="GetAllReviews" asp-controller="Review" class="card-clicked">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h1>@ViewBag.Reviews</h1>
+                                        <p>Reviews</p>
+                                    </div>
+                                    <div class="col-4 align-self-end mb-3">
+                                        <i class="fas fa-comments" style="font-size:40px"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h1>@ViewBag.Coupons</h1>
+                                    <p>Coupons</p>
+                                </div>
+                                <div class="col-4 align-self-end mb-3">
+                                    <i class="fas fa-ticket-alt" style="font-size:40px"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <h1>@ViewBag.Users</h1>
+                                    <p>Users</p>
+                                </div>
+                                <div class="col-4 align-self-end mb-3">
+                                    <i class="fa fa-users" style="font-size:40px"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section style="margin-top: 20px">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="barChart"></canvas>
+                    <br />
+                    <div class="container">
+                        <div class="calendar">
+                            <div class="header">
+                                <a data-action="prev-month" href="javascript:void(0)" title="Previous Month"><i></i></a>
+                                <div class="text" data-render="month-year"></div>
+                                <a data-action="next-month" href="javascript:void(0)" title="Next Month"><i></i></a>
+                            </div>
+                            <div class="months" data-flow="left">
+                                <div class="month month-a">
+                                    <div class="render render-a"></div>
+                                </div>
+                                <div class="month month-b">
+                                    <div class="render render-b"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <canvas id="pieChart" style="width: 70%"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </section>
+    <script>
+                    // Bar chart
+                    var ctxL = document.getElementById("barChart").getContext('2d');
+                    var myLineChart = new Chart(ctxL, {
+                        type: 'bar',
+                        data: {
+                            labels: ["Monday", "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                            datasets: [
+                                {
+                                    label: "Traffic",
+                                    data: [@ViewBag.TicketByDay, 15, 62, 65, 61, 65, 40],
+                                    backgroundColor: '#4285F4',
+                                    borderWidth: 0,
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            legend: {
+                                display: true,
+                            },
+                            tooltips: {
+                                intersect: false,
+                                mode: 'index'
+                            },
+                            scales: {
+                                xAxes: [{
+                                    stacked: true,
+                                    gridLines: {
+                                        display: false,
+                                    },
+
+                                    ticks: {
+                                        fontColor: 'rgba(0,0,0, 0.5)',
+                                    }
+                                }],
+                                yAxes: [{
+                                    stacked: true,
+                                    gridLines: {
+                                        borderDash: [2],
+                                        drawBorder: false,
+                                        zeroLineColor: "rgba(0,0,0,0)",
+                                        zeroLineBorderDash: [2],
+                                        zeroLineBorderDashOffset: [2]
+                                    },
+                                    ticks: {
+                                        fontColor: 'rgba(0,0,0, 0.5)'
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                    //pie
+                    var ctxP = document.getElementById("pieChart").getContext('2d');
+                    var myPieChart = new Chart(ctxP, {
+                    type: 'pie',
+                    data: {
+                    labels: ["The Batman", "Spider Man: No Way Home", "Don't Look Up", "Unforgivable", "Morbius"],
+                    datasets: [{
+                    data: [13, 15, 10, 4, 9],
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                    }]
+                    },
+                    options: {
+                    responsive: true
+                    }
+                    });
+
+
+                    //calendar
+                    var Calendar = function (t) {
+            this.divId = t.RenderID ? t.RenderID : '[data-render="calendar"]', this.DaysOfWeek = t.DaysOfWeek ? t.DaysOfWeek : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], this.Months = t.Months ? t.Months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var e = new Date;
+            this.CurrentMonth = e.getMonth(), this.CurrentYear = e.getFullYear();
+            var r = t.Format;
+            this.f = "string" == typeof r ? r.charAt(0).toUpperCase() : "M"
+        };
+        Calendar.prototype.nextMonth = function () {
+            11 == this.CurrentMonth ? (this.CurrentMonth = 0, this.CurrentYear = this.CurrentYear + 1) : this.CurrentMonth = this.CurrentMonth + 1, this.divId = '[data-active="false"] .render', this.showCurrent()
+        }, Calendar.prototype.prevMonth = function () {
+            0 == this.CurrentMonth ? (this.CurrentMonth = 11, this.CurrentYear = this.CurrentYear - 1) : this.CurrentMonth = this.CurrentMonth - 1, this.divId = '[data-active="false"] .render', this.showCurrent()
+        }, Calendar.prototype.previousYear = function () {
+            this.CurrentYear = this.CurrentYear - 1, this.showCurrent()
+        }, Calendar.prototype.nextYear = function () {
+            this.CurrentYear = this.CurrentYear + 1, this.showCurrent()
+        }, Calendar.prototype.showCurrent = function () {
+            this.Calendar(this.CurrentYear, this.CurrentMonth)
+        }, Calendar.prototype.checkActive = function () {
+            1 == document.querySelector(".months").getAttribute("class").includes("active") ? document.querySelector(".months").setAttribute("class", "months") : document.querySelector(".months").setAttribute("class", "months active"), "true" == document.querySelector(".month-a").getAttribute("data-active") ? (document.querySelector(".month-a").setAttribute("data-active", !1), document.querySelector(".month-b").setAttribute("data-active", !0)) : (document.querySelector(".month-a").setAttribute("data-active", !0), document.querySelector(".month-b").setAttribute("data-active", !1)), setTimeout(function () {
+                document.querySelector(".calendar .header").setAttribute("class", "header active")
+            }, 200), document.querySelector("body").setAttribute("data-theme", this.Months[document.querySelector('[data-active="true"] .render').getAttribute("data-month")].toLowerCase())
+        }, Calendar.prototype.Calendar = function (t, e) {
+            "number" == typeof t && (this.CurrentYear = t), "number" == typeof t && (this.CurrentMonth = e);
+            var r = (new Date).getDate(),
+                n = (new Date).getMonth(),
+                a = (new Date).getFullYear(),
+                o = new Date(t, e, 1).getDay(),
+                i = new Date(t, e + 1, 0).getDate(),
+                u = 0 == e ? new Date(t - 1, 11, 0).getDate() : new Date(t, e, 0).getDate(),
+                s = "<span>" + this.Months[e] + " &nbsp; " + t + "</span>",
+                d = '<div class="table">';
+            d += '<div class="row head">';
+            for (var c = 0; c < 7; c++) d += '<div class="cell">' + this.DaysOfWeek[c] + "</div>";
+            d += "</div>";
+            for (var h, l = dm = "M" == this.f ? 1 : 0 == o ? -5 : 2, v = (c = 0, 0); v < 6; v++) {
+                d += '<div class="row">';
+                for (var m = 0; m < 7; m++) {
+                    if ((h = c + dm - o) < 1) d += '<div class="cell disable">' + (u - o + l++) + "</div>";
+                    else if (h > i) d += '<div class="cell disable">' + l++ + "</div>";
+                    else {
+                        d += '<div class="cell' + (r == h && this.CurrentMonth == n && this.CurrentYear == a ? " active" : "") + '"><span>' + h + "</span></div>", l = 1
+                    }
+                    c % 7 == 6 && h >= i && (v = 10), c++
+                }
+                d += "</div>"
+            }
+            d += "</div>", document.querySelector('[data-render="month-year"]').innerHTML = s, document.querySelector(this.divId).innerHTML = d, document.querySelector(this.divId).setAttribute("data-date", this.Months[e] + " - " + t), document.querySelector(this.divId).setAttribute("data-month", e)
+        }, window.onload = function () {
+            var t = new Calendar({
+                RenderID: ".render-a",
+                Format: "M"
+            });
+            t.showCurrent(), t.checkActive();
+            var e = document.querySelectorAll(".header [data-action]");
+            for (i = 0; i < e.length; i++) e[i].onclick = function () {
+                if (document.querySelector(".calendar .header").setAttribute("class", "header"), "true" == document.querySelector(".months").getAttribute("data-loading")) return document.querySelector(".calendar .header").setAttribute("class", "header active"), !1;
+                var e;
+                document.querySelector(".months").setAttribute("data-loading", "true"), this.getAttribute("data-action").includes("prev") ? (t.prevMonth(), e = "left") : (t.nextMonth(), e = "right"), t.checkActive(), document.querySelector(".months").setAttribute("data-flow", e), document.querySelector('.month[data-active="true"]').addEventListener("webkitTransitionEnd", function () {
+                    document.querySelector(".months").removeAttribute("data-loading")
+                }), document.querySelector('.month[data-active="true"]').addEventListener("transitionend", function () {
+                    document.querySelector(".months").removeAttribute("data-loading")
+                })
+            }
+        };
+
+    </script>
+</body>
+</html>

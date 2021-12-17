@@ -1,0 +1,77 @@
+﻿
+body {
+    font-family: 'Mochiy Pop P One', sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Open Sans Condensed', sans-serif !important;
+}
+
+.gallery-wrap .img-big-wrap img {
+    height: auto;
+    width: 100%;
+    display: inline-block;
+    cursor: zoom-in;
+}
+
+.btn-signup {
+    border-radius: 25px !important;
+    padding: 8px 30px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: #F65C5C;
+    color: white;
+}
+
+    .btn-signup:focus,
+    .btn-signup:hover,
+    .btn-signup:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: white;
+    }
+
+
+.btn-signin {
+    border-radius: 25px !important;
+    padding: 8px 10px;
+    font-weight: bold;
+    outline: none !important;
+    border: none !important;
+    background-color: transparent;
+    color: #000;
+}
+
+    .btn-signin:focus,
+    .btn-signin:hover,
+    .btn-signin:active {
+        outline-style: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        color: #F65C5C;
+    }
+
+input {
+    border-bottom: 3px solid black !important;
+    outline: none !important;
+    border-radius: 0 !important;
+}
+
+    input:focus {
+        box-shadow: none !important;
+    }
+
+.search-btn:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    outline-style: none !important
+}
+
+.navbar {
+    font-family: 'Mochiy Pop P One', sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Open Sans Condensed', sans-serif !important;
+    border-bottom: 1px solid #f1f1f1 !important;
+    padding: 12px !important;
+}

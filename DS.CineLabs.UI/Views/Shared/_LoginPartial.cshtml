@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DS.CineLabs.Infrastructure.Identity
+
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<ul class="navbar-nav ml-auto justify-content-end">
+    <li>
+        <form style="margin-right:5px; margin-top:4px" class="d-flex ml-auto" method="get" asp-controller="Home" asp-action="Index">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="@ViewData["Search"]" name="search">
+            <button class="search-btn" type="submit" style="background-color:transparent !important;border:none !important"><i class="fas fa-search" style="color: black !important"></i></button>
+        </form>
+    </li>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle" style="font-size: 25px; color: black"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
+                <div class="dropdown-divider"></div>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark ml-3">Logout</button>
+                </form>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-signin" id="login" asp-area="Identity" asp-page="/Account/Login">Sign In</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-signup" id="register" asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
+        </li>
+    }
+</ul>
