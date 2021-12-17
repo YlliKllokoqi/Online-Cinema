@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DS.CineLabs.Domain", "DS.CineLabs.Domain\DS.CineLabs.Domain.csproj", "{BA605612-0DB9-46FA-8A73-D2276D33E334}"
 EndProject
@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DS.CineLabs.UI", "DS.CineLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DS.CineLabs.Common", "DS.CineLabs.Common\DS.CineLabs.Common.csproj", "{CD0799F9-537C-49A3-B018-8F982C84A413}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS.CineLabs.UnitTests", "DS.CineLabs.UnitTests\DS.CineLabs.UnitTests.csproj", "{86C5F0CA-15C2-4AB6-B591-6607DA48CB19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DS.CineLabs.UnitTests", "DS.CineLabs.UnitTests\DS.CineLabs.UnitTests.csproj", "{86C5F0CA-15C2-4AB6-B591-6607DA48CB19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D11478D6-7695-4C85-B782-6BA61D226BF2}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
